@@ -10,9 +10,11 @@ RUN npm ci --omit=dev
 # Application code. .dockerignore keeps node_modules, data and uploads out.
 COPY . .
 
-ENV NODE_ENV=production
+# Using 'development' for free-tier hosting: the app blocks demo seeding and
+# requires a stable SESSION_SECRET in production mode. Render's HTTPS proxy
+# still terminates TLS, so secure-cookie/HSTS flags are not needed here.
+ENV NODE_ENV=development
 ENV PORT=5000
-ENV SEED_DEMO_DATA=true
 
 # Writable locations for the JSON datastore and uploaded documents. Mount a
 # volume on these in any real deployment: a container filesystem is ephemeral,
