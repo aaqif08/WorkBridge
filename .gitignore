@@ -1,0 +1,18 @@
+node_modules/
+.env
+.env.local
+backend/data/*.json
+backend/data/*.tmp
+uploads/
+coverage/
+*.log
+.smoke-data/
+.smoke-uploads/
+.smoke.log
+.prod-data*/
+.prod-uploads/
+.prod.log
+
+# Pre-refactor reference copies. Excluded because legacy/db.legacy.json
+# still holds the old PLAINTEXT account passwords. See legacy/README.md.
+legacy/

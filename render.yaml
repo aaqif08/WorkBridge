@@ -1,0 +1,49 @@
+# Render blueprint for the WorkBridge platform.
+#
+# IMPORTANT: the JSON datastore and uploaded documents need a persistent disk.
+# Render's free plan does not provide one, so on the free plan every account,
+# application and uploaded file is lost on each deploy or restart. The disk
+# block below requires a paid instance type; see README "Deployment".
+services:
+  - type: web
+    name: workbridge-platform
+    runtime: node
+    plan: starter
+    buildCommand: npm ci
+    startCommand: node server.js
+    healthCheckPath: /health
+    disk:
+      name: workbridge-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      # Generated once by Render and kept stable, so sessions survive restarts.
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DATA_DIR
+        value: /var/data/db
+      - key: UPLOAD_DIR
+        value: /var/data/uploads
+      # Never seed demo accounts on a public deployment.
+      - key: SEED_DEMO_DATA
+        value: "false"
+      # Set these in the Render dashboard to provision the first administrator.
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      # "none" runs the deterministic knowledge-base assistant. Set to
+      # "anthropic" and supply a key to enable live model replies.
+      - key: AI_PROVIDER
+        value: none
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: AI_MODEL
+        value: claude-opus-5-5
+      # Only needed if a browser app is served from another origin.
+      - key: CORS_ORIGINS
+        sync: false

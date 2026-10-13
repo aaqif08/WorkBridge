@@ -1,0 +1,45 @@
+{
+  "name": "workbridge-platform",
+  "version": "2.0.0",
+  "description": "WorkBridge - recruitment and visa-processing platform for skilled workers (API + served frontend)",
+  "main": "server.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test \"tests/*.test.js\"",
+    "test:watch": "node --test --watch \"tests/*.test.js\"",
+    "lint": "eslint backend server.js public/*.js scripts tests",
+    "build": "node --experimental-vm-modules --no-warnings scripts/build-check.js",
+    "health": "node scripts/health-check.js",
+    "verify:browser": "node scripts/browser-journey.mjs",
+    "verify:api": "node scripts/api-smoke.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.70.1",
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
+    "multer": "^2.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^9.37.0",
+    "puppeteer-core": "^25.13.0",
+    "supertest": "^7.1.4"
+  },
+  "keywords": [
+    "workbridge",
+    "recruitment",
+    "visa-processing",
+    "overseas-employment",
+    "express"
+  ],
+  "author": "WorkBridge Team",
+  "license": "ISC"
+}

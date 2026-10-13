@@ -1,0 +1,14 @@
+node_modules
+npm-debug.log
+.env
+.env.*
+!.env.example
+backend/data
+uploads
+legacy
+tests
+coverage
+.smoke-data
+.smoke-uploads
+.smoke.log
+*.md
