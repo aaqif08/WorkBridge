@@ -8,14 +8,10 @@ services:
   - type: web
     name: workbridge-platform
     runtime: node
-    plan: starter
+    plan: free
     buildCommand: npm ci
     startCommand: node server.js
     healthCheckPath: /health
-    disk:
-      name: workbridge-data
-      mountPath: /var/data
-      sizeGB: 1
     envVars:
       - key: NODE_ENV
         value: production
@@ -25,12 +21,12 @@ services:
       - key: SESSION_SECRET
         generateValue: true
       - key: DATA_DIR
-        value: /var/data/db
+        value: ./backend/data
       - key: UPLOAD_DIR
-        value: /var/data/uploads
-      # Never seed demo accounts on a public deployment.
+        value: ./uploads
+      # Seed demo accounts on free plan so the app is immediately usable
       - key: SEED_DEMO_DATA
-        value: "false"
+        value: "true"
       # Set these in the Render dashboard to provision the first administrator.
       - key: ADMIN_EMAIL
         sync: false
