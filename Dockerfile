@@ -12,6 +12,7 @@ COPY . .
 
 ENV NODE_ENV=production
 ENV PORT=5000
+ENV SEED_DEMO_DATA=true
 
 # Writable locations for the JSON datastore and uploaded documents. Mount a
 # volume on these in any real deployment: a container filesystem is ephemeral,
@@ -30,4 +31,6 @@ EXPOSE 5000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD node scripts/health-check.js http://127.0.0.1:${PORT}/health || exit 1
 
-CMD ["node", "server.js"]
+# Auto-generate SESSION_SECRET at runtime if not provided, so Docker
+# deployments (e.g. Render free tier) don't crash on missing env var.
+CMD ["sh", "-c", "export SESSION_SECRET=${SESSION_SECRET:-$(node -e \"console.log(require('crypto').randomBytes(48).toString('hex'))\")} && node server.js"]
